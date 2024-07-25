@@ -23,7 +23,7 @@ classifiers = [
 dependencies = [
     "regex==2024.7.24",
     "requests==2.32.3",
-    "bs4==4.12.3",
+    "beautifulsoup4==4.12.3",
 ]
 
 [project.urls]
