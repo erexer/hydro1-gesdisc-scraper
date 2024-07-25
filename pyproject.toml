@@ -1,0 +1,30 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "hydro1-gesdisc-scraper"
+version = "0.0.1"
+description = 'Scrape https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/1999/001/'
+readme = "README.md"
+requires-python = "==3.12.3"
+keywords = []
+authors = [
+  { name="Em Rexer", email="emily.rexer@pnnl.gov" },
+]
+
+classifiers = [
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python",
+  "Programming Language :: Python :: 3.12",
+]
+
+dependencies = [
+    "regex==2024.7.24",
+    "requests==2.32.3",
+    "bs4==4.12.3",
+]
+
+[project.urls]
+Repository = "https://github.com/erexer/hydro1-gesdisc-scraper"
