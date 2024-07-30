@@ -4,6 +4,9 @@ from bs4 import BeautifulSoup
 import os
 
 
+DATA_DIR = "nldas2_data"
+
+
 def get_year_links(url):
 
     # create response object  
@@ -79,7 +82,7 @@ def download_file(grb_xml_links, year, day):
           
         # obtain filename by splitting url and getting  
         # last string 
-        file_name = f"{year}/{day}/{link.split('/')[-1]}"
+        file_name = f"{DATA_DIR}/{year}/{day}/{link.split('/')[-1]}"
   
         # create response object  
         r = requests.get(link, stream = True)  
@@ -96,7 +99,6 @@ def download_file(grb_xml_links, year, day):
 if __name__ == "__main__":  
 
     url = "https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/"
-    data_dir = "nldas2_data"
 
     for year_link in get_year_links(url):
 
@@ -107,7 +109,7 @@ if __name__ == "__main__":
             day = day_link.split('/')[-2]
 
             # make directory if it doesn't exist
-            path = os.path.join(os.getcwd(), data_dir, year, day) 
+            path = os.path.join(os.getcwd(), DATA_DIR, year, day) 
             os.makedirs(path, exist_ok=True) 
 
             grb_xml_links = get_grb_xml_links(day_link)
