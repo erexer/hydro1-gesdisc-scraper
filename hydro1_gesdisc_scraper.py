@@ -96,6 +96,7 @@ def download_file(grb_xml_links, year, day):
 if __name__ == "__main__":  
 
     url = "https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/"
+    data_dir = "nldas2_data"
 
     for year_link in get_year_links(url):
 
@@ -106,7 +107,7 @@ if __name__ == "__main__":
             day = day_link.split('/')[-2]
 
             # make directory if it doesn't exist
-            path = os.path.join(os.getcwd(), year, day) 
+            path = os.path.join(os.getcwd(), data_dir, year, day) 
             os.makedirs(path, exist_ok=True) 
 
             grb_xml_links = get_grb_xml_links(day_link)
