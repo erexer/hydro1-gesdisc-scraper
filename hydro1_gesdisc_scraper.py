@@ -1,7 +1,9 @@
+from datetime import timedelta
 import regex as re
 import requests
 from bs4 import BeautifulSoup
 import os
+import time
 
 
 DATA_DIR = "nldas2_data"
@@ -49,8 +51,8 @@ def get_day_links(url):
 
 
 def remove_duplicates(a):
-    # Not order preserving
-    return list(set(a))
+    # Order preserving
+    return list(dict.fromkeys(a))
     
 
 def get_grb_xml_links(url):  
@@ -77,12 +79,16 @@ def download_file(grb_xml_links, year, day):
   
     for link in grb_xml_links:  
   
-        '''iterate through all links in grb_xml_links  
-        and download them one by one'''
+        """Iterate through all links in grb_xml_links  
+        and download them one by one. Skip if the file already exists."""
           
         # obtain filename by splitting url and getting  
         # last string 
         file_name = f"{DATA_DIR}/{year}/{day}/{link.split('/')[-1]}"
+
+        # If file is already downloaded, skip it
+        if os.path.isfile(file_name):
+            continue
   
         # create response object  
         r = requests.get(link, stream = True)  
@@ -100,7 +106,11 @@ if __name__ == "__main__":
 
     url = "https://hydro1.gesdisc.eosdis.nasa.gov/data/NLDAS/NLDAS_FORA0125_H.002/"
 
+    start_time = time.perf_counter()
+
     for year_link in get_year_links(url):
+
+        year_start_time = time.perf_counter()
 
         year = year_link.split('/')[-2]
 
@@ -115,3 +125,6 @@ if __name__ == "__main__":
             grb_xml_links = get_grb_xml_links(day_link)
             download_file(grb_xml_links, year, day)
 
+        print(f"Downloaded {year} NLDAS files in {timedelta(seconds=time.perf_counter()-year_start_time)} seconds")
+        
+    print(f"Downloaded all NLDAS files in {timedelta(seconds=time.perf_counter()-start_time)} seconds")
