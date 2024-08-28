@@ -4,6 +4,7 @@ import requests
 from bs4 import BeautifulSoup
 import os
 import time
+import sys
 
 
 DATA_DIR = "nldas2_data"
@@ -35,10 +36,10 @@ def get_day_links(url):
     try:
         r = requests.get(url)
     except Exception as e:
-        print(e)
+        sys.exit(e)
 
     # create beautiful-soup object  
-    soup = BeautifulSoup(r.text,'html.parser')  
+    soup = BeautifulSoup(r.text,'html.parser')
       
     # find all links on web-page  
     links = soup.findAll('a')  
@@ -114,6 +115,11 @@ if __name__ == "__main__":
 
         year = year_link.split('/')[-2]
 
+        # skip year dir if there are 365 days downloaded
+        if len(next(os.walk(os.path.join(os.getcwd(), DATA_DIR, year)))[1]) >= 365:
+            print(f"Already downloaded {year}.")
+            continue
+
         for day_link in get_day_links(year_link):
 
             day = day_link.split('/')[-2]
@@ -125,6 +131,6 @@ if __name__ == "__main__":
             grb_xml_links = get_grb_xml_links(day_link)
             download_file(grb_xml_links, year, day)
 
-        print(f"Downloaded {year} NLDAS files in {timedelta(seconds=time.perf_counter()-year_start_time)} seconds")
+        print(f"Downloaded {year} NLDAS files in {timedelta(seconds=time.perf_counter()-year_start_time).strftime('%H:%M:%S')} hours:minutes:seconds.")
         
     print(f"Downloaded all NLDAS files in {timedelta(seconds=time.perf_counter()-start_time)} seconds")
