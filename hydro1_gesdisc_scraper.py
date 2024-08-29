@@ -131,6 +131,6 @@ if __name__ == "__main__":
             grb_xml_links = get_grb_xml_links(day_link)
             download_file(grb_xml_links, year, day)
 
-        print(f"Downloaded {year} NLDAS files in {timedelta(seconds=time.perf_counter()-year_start_time).strftime('%H:%M:%S')} hours:minutes:seconds.")
+        print(f"Downloaded {year} NLDAS files in {timedelta(seconds=time.perf_counter()-year_start_time)} hours:minutes:seconds.")
         
-    print(f"Downloaded all NLDAS files in {timedelta(seconds=time.perf_counter()-start_time)} seconds")
+    print(f"Downloaded all NLDAS files in {timedelta(seconds=time.perf_counter()-start_time)} hours:minutes:seconds.")
