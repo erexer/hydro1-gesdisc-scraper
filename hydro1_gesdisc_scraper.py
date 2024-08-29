@@ -116,7 +116,7 @@ if __name__ == "__main__":
         year = year_link.split('/')[-2]
 
         # skip year dir if there are 365 days downloaded
-        if len(next(os.walk(os.path.join(os.getcwd(), DATA_DIR, year)))[1]) >= 365:
+        if os.path.isdir(os.path.join(os.getcwd(), DATA_DIR, year)) and len(next(os.walk(os.path.join(os.getcwd(), DATA_DIR, year)))[1]) >= 365:
             print(f"Already downloaded {year}.")
             continue
 
